@@ -3,7 +3,7 @@ package com.coolweather.android.db;
 import org.litepal.crud.DataSupport;
 
 /**
- * Created by Administrator on 2017/11/8.
+ * Created by Administrator on 2017/11/12.
  */
 
 public class Country extends DataSupport {

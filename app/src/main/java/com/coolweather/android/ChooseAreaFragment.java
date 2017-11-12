@@ -165,7 +165,7 @@ public class ChooseAreaFragment extends Fragment {
         }
     }
 
-    //查询全国所有的县，优先从数据库查询，如果没有查询到再去服务器上查询
+    //查询选中市内所有的县，优先从数据库查询，如果没有查询到再去服务器上查询
     private void queryCountries() {
         titleText.setText(selectedCity.getCityName());
         backButton.setVisibility(View.VISIBLE);
@@ -194,18 +194,6 @@ public class ChooseAreaFragment extends Fragment {
         showProgressDialog();
         HttpUtil.sendOkHttpRequest(address, new Callback() {
             @Override
-            public void onFailure(Call call, IOException e) {
-                //通过runOnUiThred()方法回到主线程处理逻辑
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        closeProgressDialog();
-                        Toast.makeText(getContext(), "加载失败", Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
-
-            @Override
             public void onResponse(Call call, Response response) throws IOException {
                 String responseText = response.body().string();
                 boolean result = false;
@@ -231,6 +219,17 @@ public class ChooseAreaFragment extends Fragment {
                         }
                     });
                 }
+            }
+            @Override
+            public void onFailure(Call call, IOException e) {
+                //通过runOnUiThred()方法回到主线程处理逻辑
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        closeProgressDialog();
+                        Toast.makeText(getContext(), "加载失败", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
     }

@@ -71,12 +71,13 @@ public class Utility {
         if (!TextUtils.isEmpty(response)) {
             try {
                 JSONArray allCountries = new JSONArray(response);
-                for(int i=0;i<allCountries.length();i++){
+                for (int i = 0; i < allCountries.length(); i++) {
                     JSONObject countryObject = allCountries.getJSONObject(i);
                     Country country = new Country();
                     country.setCountryName(countryObject.getString("name"));
                     country.setWeatherId(countryObject.getString("weather_id"));
-                    country.setId(cityId);
+//                    country.setId(Integer.valueOf(countryObject.getString("id")));
+                    country.setCityId(cityId);
                     country.save();
                 }
                 return true;
@@ -90,14 +91,14 @@ public class Utility {
     /**
      * 将返回的JSON数据解析成Weather实体类
      */
-    public static Weather handleWeatherResponse(String response){
+    public static Weather handleWeatherResponse(String response) {
         try {
             //将天气的主体内容解析出来
             JSONObject jsonObject = new JSONObject(response);
             JSONArray jsonArray = jsonObject.getJSONArray("HeWeather");
             String weatherContent = jsonArray.getJSONObject(0).toString();
-            return new Gson().fromJson(weatherContent,Weather.class);
-        }catch (Exception e){
+            return new Gson().fromJson(weatherContent, Weather.class);
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
